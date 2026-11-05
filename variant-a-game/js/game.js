@@ -6,8 +6,9 @@ export function overlaps(a, b) {
 }
 
 export class Game {
-  constructor(collision = overlaps) {
+  constructor(collision = overlaps, boundaryCollision = null) {
     this.collision = collision;
+    this.boundaryCollision = boundaryCollision;
     this.reset();
   }
 
@@ -39,7 +40,10 @@ export class Game {
     this.distance += (72 + Math.min(12, this.elapsed * .4)) * dt;
     this.player.velocity += GRAVITY * dt;
     this.player.y += this.player.velocity * dt;
-    if (this.player.y < PLAYFIELD.top || this.player.y + this.player.height > PLAYFIELD.bottom) {
+    const touchesBoundary = this.boundaryCollision
+      ? this.boundaryCollision(this.player)
+      : this.player.y < PLAYFIELD.top || this.player.y + this.player.height > PLAYFIELD.bottom;
+    if (touchesBoundary) {
       this.state = 'fail';
       this.reason = 'boundary';
       return;

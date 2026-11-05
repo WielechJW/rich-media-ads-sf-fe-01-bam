@@ -1,12 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { Game, overlaps } from '../variant-a-game/js/game.js';
 import { LEVEL, PLAYER } from '../variant-a-game/js/level.js';
 import { masksOverlap } from '../variant-a-game/js/collisions.js';
 
 // A reproducible, human-paced route. Times are simulation ticks at 120 Hz;
 // shortest interval is 0.68 seconds. Rectangular collision is stricter than art.
-export const WINNING_TAPS = [140,256,372,488,604,720,837,953,1069,1185,1301,1417,1533,1650,1766,1882,1998,2114,2196,2295,2412,2528,2663,2778,2895,3026,3121,3232,3348,3504,3586,3694];
+const WINNING_TAPS = JSON.parse(readFileSync(new URL('winning-route.json', import.meta.url)));
 
 test('the complete route is winnable and every required obstacle passes exactly once', () => {
   const required = [...Array.from({ length: 6 }, (_, i) => `bac${i + 1}`), ...Array.from({ length: 9 }, (_, i) => `txt${i + 1}`)].sort();

@@ -30,7 +30,12 @@ let frameId = null;
 let lastTime = null;
 let accumulator = 0;
 
-const game = new Game((player, obstacle) => masksOverlap(player, obstacle, masks.get('player'), masks.get(obstacle.id)));
+const borderBounds = { x: 0, y: 0, width: WIDTH, height: HEIGHT };
+const game = new Game(
+  (player, obstacle) => masksOverlap(player, obstacle, masks.get('player'), masks.get(obstacle.id)),
+  player => player.y < 0 || player.y + player.height > HEIGHT
+    || masksOverlap(player, borderBounds, masks.get('player'), masks.get('border')),
+);
 
 function fit() {
   const styles = getComputedStyle(viewport);
@@ -73,12 +78,7 @@ function draw() {
   context.drawImage(images.get('border'), 0, 0, WIDTH, HEIGHT);
   context.restore();
   if (debug) {
-    context.strokeStyle = '#1eff82';
-    context.lineWidth = 1;
-    context.beginPath();
-    context.moveTo(0, PLAYFIELD.top); context.lineTo(WIDTH, PLAYFIELD.top);
-    context.moveTo(0, PLAYFIELD.bottom); context.lineTo(WIDTH, PLAYFIELD.bottom);
-    context.stroke();
+    context.drawImage(masks.get('border').canvas, 0, 0, WIDTH, HEIGHT);
     const playerMask = masks.get('player');
     context.drawImage(playerMask.canvas, game.player.x, game.player.y, PLAYER.width, PLAYER.height);
     for (const obstacle of game.obstacles()) {
@@ -259,6 +259,7 @@ async function prepare() {
     audio.load(),
   ]);
   masks.set('player', createMask(images.get('player'), 1));
+  masks.set('border', createMask(images.get('border')));
   for (const { id } of LEVEL) masks.set(id, createMask(images.get(id)));
   ready = true;
   loading.hidden = true;
