@@ -3,6 +3,7 @@ const params = new URLSearchParams(location.search);
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const isPreview = params.get('preview') === '1' && window.parent !== window;
 const animations = [];
+const pausedAnimations = new Set();
 let ready = false;
 let pendingStart = null;
 let pausedAt = null;
@@ -34,6 +35,7 @@ creative.addEventListener('click', () => {
 function stopAnimations() {
   for (const animation of animations) animation.cancel();
   animations.length = 0;
+  pausedAnimations.clear();
   pausedAt = null;
 }
 
@@ -97,7 +99,14 @@ function start(epoch) {
 function pause() {
   if (pausedAt !== null || !animations.length) return;
   pausedAt = Date.now();
-  for (const animation of animations) animation.pause();
+  for (const animation of animations) {
+    // Calling play() on a completed animation rewinds it. Only resume effects
+    // that were actually running when visibility changed.
+    if (animation.playState === 'running') {
+      pausedAnimations.add(animation);
+      animation.pause();
+    }
+  }
 }
 
 function resume() {
@@ -105,7 +114,8 @@ function resume() {
   const elapsed = Date.now() - pausedAt;
   if (startedAt !== null) startedAt += elapsed;
   pausedAt = null;
-  for (const animation of animations) animation.play();
+  for (const animation of pausedAnimations) animation.play();
+  pausedAnimations.clear();
 }
 
 window.addEventListener('message', (event) => {
