@@ -1,0 +1,27 @@
+:root { font-family: Arial, Helvetica, sans-serif; color-scheme: light; background: #0d1f4b; }
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; overscroll-behavior: none; }
+[hidden] { display: none !important; }
+.viewport { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); place-items: center; width: 100%; height: 100vh; height: 100dvh; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); overflow: hidden; }
+.stage { position: relative; flex: none; width: 360px; height: 640px; overflow: hidden; background: #0d1f4b; transform-origin: center; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+.art { position: absolute; left: 0; top: 0; width: 360px; height: 640px; pointer-events: none; }
+.logo { z-index: 8; }
+.game-scene, .tutorial, .endcard { position: absolute; inset: 0; }
+canvas { display: block; width: 360px; height: 640px; }
+.gesture { position: absolute; left: 147.5px; top: 452px; width: 86.5px; height: 96px; pointer-events: none; }
+.tap-ring { position: absolute; left: 173.5px; top: 452px; width: 24px; height: 24px; border: 1px solid #0c0c0c; border-radius: 50%; }
+.endcard { background: #0d1f4b; }
+.image-button { position: absolute; display: block; padding: 0; border: 0; border-radius: 0 20px 20px 20px; background: transparent; cursor: pointer; touch-action: manipulation; }
+.image-button img { display: block; width: 100%; height: 100%; }
+.fail-cta { left: 38.5px; top: 482.5px; width: 186px; height: 38.5px; }
+.replay { left: 38.5px; top: 538.5px; width: 185.5px; height: 40.5px; }
+.win-cta { left: 27px; top: 560px; width: 214px; height: 45.5px; }
+.image-button:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+.mute { position: absolute; z-index: 20; right: 8px; top: 9px; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid #d8dce5; border-radius: 50%; background: #fff; color: #0d1f4b; cursor: pointer; touch-action: manipulation; }
+.mute:focus-visible { outline: 2px solid #0d1f4b; outline-offset: 2px; }
+.sound-off, .mute[aria-pressed="true"] .sound-waves { display: none; }
+.mute[aria-pressed="true"] .sound-off { display: block; }
+.pause-overlay { position: absolute; z-index: 10; inset: 58px 0 0; display: grid; place-items: center; background: #0d1f4baa; color: white; font-size: 24px; pointer-events: none; }
+.loading { position: absolute; inset: 58px 0 0; display: grid; place-items: center; color: white; font-size: 20px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+@media (prefers-reduced-motion: reduce) { .stage * { scroll-behavior: auto; } }
