@@ -1,10 +1,14 @@
 const assert = require('node:assert/strict');
 const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const taps = require('./winning-route.json');
+const { mkdirSync } = require('node:fs');
+const { join } = require('node:path');
+const output = join(__dirname, '..', 'test-results');
+mkdirSync(output, { recursive: true });
 const base = (process.env.TEST_URL || 'http://127.0.0.1:8080').replace(/\/$/, '');
 
 (async () => {
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_CHANNEL ? { channel: process.env.BROWSER_CHANNEL } : {}) });
   try {
     const context = await browser.newContext({ viewport: { width: 360, height: 640 }, hasTouch: true, isMobile: true, reducedMotion: 'reduce' });
     const page = await context.newPage();
@@ -33,7 +37,7 @@ const base = (process.env.TEST_URL || 'http://127.0.0.1:8080').replace(/\/$/, ''
       assert.equal((await snapshot()).state, 'fail');
     };
     await fail();
-    await page.screenshot({ path: '/tmp/gut-fail.png' });
+    await page.screenshot({ path: join(output, 'gut-fail.png') });
     await page.locator('.replay').click();
     await page.locator('.mute').click();
     assert.equal((await snapshot()).state, 'start');
@@ -70,6 +74,17 @@ const base = (process.env.TEST_URL || 'http://127.0.0.1:8080').replace(/\/$/, ''
     console.log('Game: visibility pause stops physics and audio; resume has no time jump.');
 
     await start();
+    for (let count = 0; count < 160 && (await snapshot()).state === 'playing'; count++) {
+      const current = await snapshot();
+      if (current.player.y >= 300 && current.player.velocity > -50) await start();
+      await page.clock.runFor(50);
+    }
+    assert.equal((await snapshot()).state, 'fail');
+    assert.equal((await snapshot()).reason, 'obstacle');
+    await page.locator('.replay').click();
+    console.log('Game: touching a real obstacle fails through its alpha mask.');
+
+    await start();
     await page.clock.runFor(16);
     let previous = 0;
     for (const tick of taps) {
@@ -85,7 +100,7 @@ const base = (process.env.TEST_URL || 'http://127.0.0.1:8080').replace(/\/$/, ''
     assert.equal(won.state, 'win');
     assert.equal(won.seen.length, 15);
     assert.equal(won.passed.length, 15);
-    await page.screenshot({ path: '/tmp/gut-win.png' });
+    await page.screenshot({ path: join(output, 'gut-win.png') });
     console.log('Game: a full real-input route wins after all 15 obstacles pass.');
 
     await context.route('https://example.com/**', route => route.fulfill({ status: 200, body: 'Test landing' }));

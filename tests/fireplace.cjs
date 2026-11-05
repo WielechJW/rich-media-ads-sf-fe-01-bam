@@ -3,7 +3,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const base = (process.env.TEST_URL || 'http://127.0.0.1:8080').replace(/\/$/, '');
 
 (async () => {
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  const browser = await chromium.launch({ headless: true, ...(process.env.BROWSER_CHANNEL ? { channel: process.env.BROWSER_CHANNEL } : {}) });
   try {
     const page = await browser.newPage({ viewport: { width: 1750, height: 1120 } });
     const errors = [];

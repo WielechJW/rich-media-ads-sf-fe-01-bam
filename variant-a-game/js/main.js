@@ -1,5 +1,5 @@
 import { Game } from './game.js';
-import { LEVEL, WIDTH, HEIGHT, PLAYER, PLAYFIELD } from './level.js';
+import { LEVEL, WIDTH, HEIGHT, PLAYER } from './level.js';
 import { createMask, masksOverlap } from './collisions.js';
 import { AudioManager } from './audio.js';
 
