@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fireplace — podgląd trzech kreacji</title>
+    <link rel="stylesheet" href="preview.css">
+    <script type="module" src="js/preview.js"></script>
+  </head>
+  <body>
+    <header class="toolbar">
+      <div><strong>Fireplace</strong><span>320 × 975 / 1032 × 250 / 320 × 975</span></div>
+      <div class="controls">
+        <label><input type="checkbox" id="actual-size"> Rozmiar 1:1</label>
+        <button type="button" id="replay">Odtwórz intro</button>
+      </div>
+    </header>
+    <main class="preview-area">
+      <div class="stage-shell">
+        <div class="stage" aria-label="Podgląd reklam wokół miejsca na stronę wydawcy">
+          <iframe class="slot slot--left" src="left.html?preview=1" title="Lewa reklama" width="320" height="975"></iframe>
+          <iframe class="slot slot--top" src="top.html?preview=1" title="Górna reklama" width="1032" height="250"></iframe>
+          <div class="publisher" aria-label="Puste miejsce na stronę wydawcy"></div>
+          <iframe class="slot slot--right" src="right.html?preview=1" title="Prawa reklama" width="320" height="975"></iframe>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>
