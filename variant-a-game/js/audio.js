@@ -46,7 +46,7 @@ export class AudioManager {
 
   stop() {
     for (const source of this.sources) {
-      try { source.stop(); } catch { /* The one-shot may already have ended. */ }
+      try { source.stop(); } catch {}
     }
     this.sources.clear();
   }

@@ -25,8 +25,6 @@ export class Game {
   start() {
     if (this.state !== 'start') return;
     this.state = 'playing';
-    // The measured tutorial position is near the upper edge. A gentle first
-    // impulse gives the player room to react before the regular jump input.
     this.player.velocity = -120;
   }
 

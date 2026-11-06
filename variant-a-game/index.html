@@ -1,50 +1,72 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <link rel="icon" href="data:,">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="theme-color" content="#0d1f4b">
-    <title>Gut Run — Tap to run</title>
-    <link rel="stylesheet" href="styles.css">
-    <script type="module" src="js/main.js"></script>
-  </head>
-  <body>
-    <main class="viewport">
-      <div class="stage" aria-label="Gut Run: Tippen oder Leertaste zum Springen">
-        <div class="loading" role="status">Lädt…</div>
-        <div class="game-scene" hidden><canvas width="720" height="1280" aria-label="Spielfeld"></canvas></div>
-        <div class="tutorial" hidden>
-          <img class="art" src="creative-assets/01_game/tut.png" alt="Bringe Poo durch den Darm ans Ziel." width="720" height="1280">
-          <span class="tap-ring"></span>
-          <img class="gesture" src="creative-assets/gesture.png" alt="Tap to run" width="173" height="192">
-        </div>
-        <section class="endcard endcard--fail" aria-label="Spiel verloren" hidden>
-          <img class="art entrance" src="creative-assets/02_endcard/fail/bubble.png" alt="" width="720" height="1280">
-          <img class="art entrance character" src="creative-assets/02_endcard/fail/sad.png" alt="Trauriger Poo" width="720" height="1280">
-          <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac1.png" alt="" width="720" height="1280">
-          <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac2.png" alt="" width="720" height="1280">
-          <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac3.png" alt="" width="720" height="1280">
-          <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac4.png" alt="" width="720" height="1280">
-          <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac5.png" alt="" width="720" height="1280">
-          <img class="art entrance" src="creative-assets/02_endcard/fail/hl.png" alt="Poo, das tat weh! Erfahre jetzt, was deinem Darm guttut." width="720" height="1280">
-          <a class="image-button fail-cta entrance" href="https://example.com/landing" target="_blank" rel="noopener"><img src="creative-assets/02_endcard/fail/cta.png" alt="Jetzt informieren!" width="372" height="77"></a>
-          <button class="image-button replay entrance" type="button"><img src="creative-assets/02_endcard/fail/replay.png" alt="Nochmal spielen" width="371" height="81"></button>
-        </section>
-        <section class="endcard endcard--win" aria-label="Spiel gewonnen" hidden>
-          <img class="art entrance" src="creative-assets/02_endcard/win/bubble.png" alt="" width="720" height="1280">
-          <img class="art entrance confetti" src="creative-assets/02_endcard/win/konfetti.png" alt="" width="720" height="1280">
-          <img class="art entrance character" src="creative-assets/02_endcard/win/happy.png" alt="Glücklicher Poo" width="720" height="1280">
-          <img class="art entrance" src="creative-assets/02_endcard/win/hl.png" alt="Poo, tut das gut! Wenn du weißt, was dein Darm braucht." width="720" height="1280">
-          <a class="image-button win-cta entrance" href="https://example.com/landing" target="_blank" rel="noopener"><img src="creative-assets/02_endcard/win/cta.png" alt="Jetzt mehr erfahren" width="428" height="91"></a>
-        </section>
-        <img class="art logo" src="creative-assets/logo.png" alt="Your logo" width="720" height="1280">
-        <button class="mute" type="button" aria-label="Ton ausschalten" aria-pressed="false" hidden>
-          <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path class="sound-waves" d="M16 8c2 2 2 6 0 8m3-11c4 4 4 10 0 14" fill="none" stroke="currentColor" stroke-width="1.5"/><path class="sound-off" d="m16 9 6 6m0-6-6 6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-        </button>
-        <div class="pause-overlay" hidden><span>Pausiert</span></div>
-        <p class="sr-only" id="status" role="status" aria-live="polite"></p>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" href="data:,">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0d1f4b">
+  <title>Gut Run — Tap to run</title>
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="js/main.js"></script>
+</head>
+
+<body>
+  <main class="viewport">
+    <div class="stage" aria-label="Gut Run: Tippen oder Leertaste zum Springen">
+      <div class="loading" role="status">Lädt…</div>
+      <div class="game-scene" hidden><canvas width="720" height="1280" aria-label="Spielfeld"></canvas></div>
+      <div class="tutorial" hidden>
+        <img class="art" src="creative-assets/01_game/tut.png" alt="Bringe Poo durch den Darm ans Ziel." width="720"
+          height="1280">
+        <span class="tap-ring"></span>
+        <img class="gesture" src="creative-assets/gesture.png" alt="Tap to run" width="173" height="192">
       </div>
-    </main>
-  </body>
+      <section class="endcard endcard--fail" aria-label="Spiel verloren" hidden>
+        <img class="art entrance" src="creative-assets/02_endcard/fail/bubble.png" alt="" width="720" height="1280">
+        <img class="art entrance character" src="creative-assets/02_endcard/fail/sad.png" alt="Trauriger Poo"
+          width="720" height="1280">
+        <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac1.png" alt="" width="720"
+          height="1280">
+        <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac2.png" alt="" width="720"
+          height="1280">
+        <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac3.png" alt="" width="720"
+          height="1280">
+        <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac4.png" alt="" width="720"
+          height="1280">
+        <img class="art entrance bacterium" src="creative-assets/02_endcard/fail/bac5.png" alt="" width="720"
+          height="1280">
+        <img class="art entrance" src="creative-assets/02_endcard/fail/hl.png"
+          alt="Poo, das tat weh! Erfahre jetzt, was deinem Darm guttut." width="720" height="1280">
+        <a class="image-button fail-cta entrance" href="https://example.com/landing" target="_blank" rel="noopener"><img
+            src="creative-assets/02_endcard/fail/cta.png" alt="Jetzt informieren!" width="372" height="77"></a>
+        <button class="image-button replay entrance" type="button"><img src="creative-assets/02_endcard/fail/replay.png"
+            alt="Nochmal spielen" width="371" height="81"></button>
+      </section>
+      <section class="endcard endcard--win" aria-label="Spiel gewonnen" hidden>
+        <img class="art entrance" src="creative-assets/02_endcard/win/bubble.png" alt="" width="720" height="1280">
+        <img class="art entrance confetti" src="creative-assets/02_endcard/win/konfetti.png" alt="" width="720"
+          height="1280">
+        <img class="art entrance character" src="creative-assets/02_endcard/win/happy.png" alt="Glücklicher Poo"
+          width="720" height="1280">
+        <img class="art entrance" src="creative-assets/02_endcard/win/hl.png"
+          alt="Poo, tut das gut! Wenn du weißt, was dein Darm braucht." width="720" height="1280">
+        <a class="image-button win-cta entrance" href="https://example.com/landing" target="_blank" rel="noopener"><img
+            src="creative-assets/02_endcard/win/cta.png" alt="Jetzt mehr erfahren" width="428" height="91"></a>
+      </section>
+      <img class="art logo" src="creative-assets/logo.png" alt="Your logo" width="720" height="1280">
+      <button class="mute" type="button" aria-label="Ton ausschalten" aria-pressed="false" hidden>
+        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true">
+          <path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor" />
+          <path class="sound-waves" d="M16 8c2 2 2 6 0 8m3-11c4 4 4 10 0 14" fill="none" stroke="currentColor"
+            stroke-width="1.5" />
+          <path class="sound-off" d="m16 9 6 6m0-6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </button>
+      <div class="pause-overlay" hidden><span>Pausiert</span></div>
+      <p class="sr-only" id="status" role="status" aria-live="polite"></p>
+    </div>
+  </main>
+</body>
+
 </html>

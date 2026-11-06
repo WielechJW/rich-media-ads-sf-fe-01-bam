@@ -5,8 +5,6 @@ import { Game, overlaps } from '../variant-a-game/js/game.js';
 import { LEVEL, PLAYER } from '../variant-a-game/js/level.js';
 import { masksOverlap } from '../variant-a-game/js/collisions.js';
 
-// A reproducible, human-paced route. Times are simulation ticks at 120 Hz;
-// shortest interval is 0.68 seconds. Rectangular collision is stricter than art.
 const WINNING_TAPS = JSON.parse(readFileSync(new URL('winning-route.json', import.meta.url)));
 
 test('the complete route is winnable and every required obstacle passes exactly once', () => {

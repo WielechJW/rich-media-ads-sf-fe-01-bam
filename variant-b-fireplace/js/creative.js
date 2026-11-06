@@ -10,7 +10,6 @@ let pausedAt = null;
 let startedAt = null;
 let clickTag = window.clickTag || 'https://example.com/landing';
 
-// The DOM is the final composition. Animations only temporarily override it.
 if (!reducedMotion.matches && !params.has('still')) creative.classList.add('is-preparing');
 
 function setClickTag(value) {
@@ -20,15 +19,12 @@ function setClickTag(value) {
     if (!['http:', 'https:'].includes(url.protocol)) return;
     clickTag = url.href;
     creative.href = clickTag;
-  } catch {
-    // A malformed host tag falls back to the supplied landing page.
-  }
+  } catch {}
 }
 
 setClickTag(clickTag);
 
 creative.addEventListener('click', () => {
-  // Read again so ad servers can assign their click tag after page load.
   setClickTag(window.clickTag || clickTag);
 });
 
@@ -57,7 +53,6 @@ function start(epoch) {
   creative.dataset.startedAt = String(epoch);
   if (reducedMotion.matches || params.has('still')) return;
 
-  // Translate the shared wall-clock start into this document's timeline.
   const startTime = document.timeline.currentTime + epoch - Date.now();
   const ease = 'cubic-bezier(.16, 1, .3, 1)';
   animate(creative.querySelector('.backdrop'), [
@@ -87,7 +82,6 @@ function start(epoch) {
     { opacity: 0, transform: 'translateY(10px) scale(.96)' },
     { opacity: 1, transform: 'translateY(0) scale(1)' },
   ], { duration: 900, delay: 3200, easing: ease, fill: 'backwards' }, startTime);
-  // Eight finite pulses finish at 30 seconds. No perpetual timers or loops.
   animate(creative.querySelector('.cta'), [
     { transform: 'scale(1)' },
     { transform: 'scale(1.025)', offset: .5 },
@@ -100,8 +94,6 @@ function pause() {
   if (pausedAt !== null || !animations.length) return;
   pausedAt = Date.now();
   for (const animation of animations) {
-    // Calling play() on a completed animation rewinds it. Only resume effects
-    // that were actually running when visibility changed.
     if (animation.playState === 'running') {
       pausedAnimations.add(animation);
       animation.pause();

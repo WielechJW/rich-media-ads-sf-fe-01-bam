@@ -6,7 +6,6 @@ export const TRACK_LENGTH = 2528;
 export const GRAVITY = 420;
 export const JUMP = -205;
 
-// Dimensions are the supplied 2x sprites divided by two. Each ID occurs once.
 const sprites = [
   ['bac4', 69, 34], ['txt1', 23, 94], ['bac2', 21.5, 77],
   ['txt2', 34, 113], ['bac1', 62.5, 59.5], ['txt3', 23.5, 60.5],

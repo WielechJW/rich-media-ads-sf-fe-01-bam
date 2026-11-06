@@ -1,4 +1,3 @@
-// Decode alpha once. The game never reads pixels from the main canvas per frame.
 export function createMask(image, inset = 0) {
   const width = Math.ceil(image.naturalWidth / 2);
   const height = Math.ceil(image.naturalHeight / 2);

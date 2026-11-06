@@ -271,7 +271,6 @@ async function prepare() {
   setPaused('hidden', document.hidden);
   pauseOverlay.hidden = !pauseReasons.size;
   if (debug) {
-    // Read-only inspection for hitbox checks and repeatable browser tests.
     window.gutRunDebug = { snapshot: () => ({ ...game.snapshot(), paused: pauseReasons.size > 0, audioState: audio.context?.state, audioSources: audio.sources.size, muted: audio.muted }) };
   }
 }
